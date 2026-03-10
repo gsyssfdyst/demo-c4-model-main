@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/library_c4
+    username: library
+    password: library
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+  thymeleaf:
+    cache: false
+
+server:
+  servlet:
+    session:
+      timeout: 8h
+
+logging:
+  level:
+    com.biblioteca.c4: INFO
+
+app:
+  auth:
+    session-key: AUTH_USER
+  loan:
+    default-days: 14
+    fine-per-day: 5.00

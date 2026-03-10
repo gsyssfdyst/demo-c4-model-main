@@ -1,0 +1,67 @@
+<div th:fragment="sidebar(activeMenu)" class="sidebar">
+    <!-- Logo -->
+    <div class="sidebar-header">
+        <a href="/web/dashboard" class="sidebar-logo">
+            <i class="bi bi-book-fill"></i>
+            <span>Biblioteca</span>
+        </a>
+    </div>
+    
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav">
+        <ul class="nav-list">
+            <!-- Dashboard -->
+            <li class="nav-item">
+                <a href="/web/dashboard" class="nav-link" th:classappend="${activeMenu == 'dashboard' ? 'active' : ''}">
+                    <i class="bi bi-speedometer2"></i>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+            </li>
+            
+            <!-- Books -->
+            <li class="nav-item">
+                <a href="/web/books" class="nav-link" th:classappend="${activeMenu == 'books' ? 'active' : ''}">
+                    <i class="bi bi-book"></i>
+                    <span class="nav-label">Livros</span>
+                </a>
+            </li>
+            
+            <!-- Users -->
+            <li class="nav-item">
+                <a href="/web/users" class="nav-link" th:classappend="${activeMenu == 'users' ? 'active' : ''}">
+                    <i class="bi bi-people-fill"></i>
+                    <span class="nav-label">Usuários</span>
+                </a>
+            </li>
+            
+            <!-- Loans -->
+            <li class="nav-item">
+                <a href="/web/loans" class="nav-link" th:classappend="${activeMenu == 'loans' ? 'active' : ''}">
+                    <i class="bi bi-arrow-left-right"></i>
+                    <span class="nav-label">Empréstimos</span>
+                </a>
+            </li>
+            
+            <!-- Settings -->
+            <li class="nav-item">
+                <a href="/web/settings" class="nav-link" th:classappend="${activeMenu == 'settings' ? 'active' : ''}">
+                    <i class="bi bi-gear-fill"></i>
+                    <span class="nav-label">Configurações</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- User Profile (Bottom) -->
+    <div class="sidebar-footer" th:if="${authUser != null}">
+        <div class="user-info">
+            <div class="user-avatar">
+                <i class="bi bi-person-circle"></i>
+            </div>
+            <div class="user-details">
+                <div class="user-name" th:text="${authUser.username}">Usuário</div>
+                <div class="user-role" th:text="${authUser.role}">Role</div>
+            </div>
+        </div>
+    </div>
+</div>

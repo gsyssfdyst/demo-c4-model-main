@@ -1,0 +1,45 @@
+<div th:fragment="topbar" class="topbar">
+    <div class="topbar-container">
+        <!-- Left: Search -->
+        <div class="topbar-left">
+            <div class="search-box">
+                <i class="bi bi-search"></i>
+                <input type="text" class="form-control" placeholder="Buscar...">
+            </div>
+        </div>
+        
+        <!-- Right: Icons & Avatar -->
+        <div class="topbar-right">
+            <!-- Notifications -->
+            <div class="topbar-icon-group">
+                <button class="topbar-icon-btn" data-bs-toggle="tooltip" title="Notificações">
+                    <i class="bi bi-bell"></i>
+                    <span class="icon-badge">3</span>
+                </button>
+            </div>
+            
+            <!-- Settings -->
+            <div class="topbar-icon-group">
+                <button class="topbar-icon-btn" data-bs-toggle="tooltip" title="Configurações">
+                    <i class="bi bi-gear"></i>
+                </button>
+            </div>
+            
+            <!-- User Dropdown -->
+            <div class="topbar-user-dropdown">
+                <div class="user-avatar-mini" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="/web/settings">
+                        <i class="bi bi-gear-fill"></i> Perfil
+                    </a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/login/logout">
+                        <i class="bi bi-box-arrow-right"></i> Sair
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
