@@ -357,25 +357,33 @@ const Presentation = () => {
   const progress = ((currentSlide + 1) / slides.length) * 100;
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'radial-gradient(circle at top right, #1e1b4b, #0f172a 60%)' }}>
-      {/* Top Progress Bar */}
-      <div style={{ height: '4px', width: '100%', background: 'rgba(255,255,255,0.05)' }}>
-        <div style={{ height: '100%', width: `${progress}%`, background: 'linear-gradient(90deg, #c084fc, #3b82f6)', transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)' }} />
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'radial-gradient(circle at top right, #1e1b4b, #0f172a 60%)', overflow: 'hidden', position: 'relative' }}>
+
+      {/* ✨ Animated floating orbs background */}
+      <div aria-hidden="true" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }}>
+        <div className="orb orb1" />
+        <div className="orb orb2" />
+        <div className="orb orb3" />
       </div>
 
-      <div style={{ padding: '1.5rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'var(--glass-bg)', padding: '0.5rem 1rem', borderRadius: '4px', border: '1px solid var(--glass-border)' }}>
+      {/* Top Progress Bar */}
+      <div style={{ height: '4px', width: '100%', background: 'rgba(255,255,255,0.05)', position: 'relative', zIndex: 1 }}>
+        <div style={{ height: '100%', width: `${progress}%`, background: 'linear-gradient(90deg, #c084fc, #3b82f6)', transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)', boxShadow: '0 0 10px #c084fc88' }} />
+      </div>
+
+      <div style={{ padding: '1.5rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'var(--glass-bg)', padding: '0.5rem 1rem', borderRadius: '8px', border: '1px solid var(--glass-border)', animation: 'fadeInDown 0.6s ease-out' }}>
            <PresentationIcon color="#c084fc" size={24} /> 
            <span style={{ fontWeight: '600', letterSpacing: '0.5px' }}>Defesa C4 Model</span>
            <span style={{ color: 'var(--text-muted)' }}>|</span>
            <span style={{ color: '#93c5fd' }}>Slide {currentSlide + 1} de {slides.length}</span>
         </div>
-        <button onClick={() => navigate('/login')} className="btn" style={{ width: 'auto', background: 'rgba(239, 68, 68, 0.1)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '0.5rem 1rem' }}>
+        <button onClick={() => navigate('/login')} className="btn" style={{ width: 'auto', background: 'rgba(239, 68, 68, 0.1)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '0.5rem 1rem', animation: 'fadeInDown 0.6s ease-out' }}>
           Sair (Esc)
         </button>
       </div>
 
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 2rem 2rem 2rem', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 2rem 2rem 2rem', position: 'relative', overflow: 'hidden', zIndex: 1 }}>
         <div 
           key={currentSlide}
           style={{ 
@@ -384,25 +392,47 @@ const Presentation = () => {
             animation: `${direction === 'next' ? 'slideInRight' : 'slideInLeft'} 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`
           }}
         >
-          <div className="glass-card" style={{ padding: '4rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
-            <h2 style={{ fontSize: '2.8rem', marginBottom: '1rem', background: 'linear-gradient(to right, #f8fafc, #93c5fd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <div className="glass-card" style={{ padding: '4rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)', borderColor: 'rgba(192, 132, 252, 0.2)' }}>
+            <h2 style={{ fontSize: '2.8rem', marginBottom: '1rem', background: 'linear-gradient(to right, #f8fafc, #93c5fd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'fadeInUp 0.5s 0.1s ease-out both' }}>
               {slides[currentSlide].title}
             </h2>
-            {slides[currentSlide].subtitle && <h3 style={{ fontSize: '1.5rem', color: '#c084fc', marginBottom: '3rem', fontWeight: '400' }}>{slides[currentSlide].subtitle}</h3>}
-            <div style={{ fontSize: '1.2rem', color: 'rgba(248, 250, 252, 0.9)' }}>
+            {slides[currentSlide].subtitle && <h3 style={{ fontSize: '1.5rem', color: '#c084fc', marginBottom: '3rem', fontWeight: '400', animation: 'fadeInUp 0.5s 0.2s ease-out both' }}>{slides[currentSlide].subtitle}</h3>}
+            <div style={{ fontSize: '1.2rem', color: 'rgba(248, 250, 252, 0.9)', animation: 'fadeInUp 0.5s 0.3s ease-out both' }}>
               {slides[currentSlide].content}
             </div>
           </div>
         </div>
       </div>
 
+      {/* Slide dot indicators */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', paddingBottom: '1.5rem', position: 'relative', zIndex: 1 }}>
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => { setDirection(i > currentSlide ? 'next' : 'prev'); setCurrentSlide(i); }}
+            title={`Slide ${i + 1}`}
+            style={{
+              width: i === currentSlide ? '28px' : '8px',
+              height: '8px',
+              borderRadius: '4px',
+              border: 'none',
+              cursor: 'pointer',
+              background: i === currentSlide ? 'linear-gradient(90deg, #c084fc, #3b82f6)' : 'rgba(255,255,255,0.2)',
+              transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
+              padding: 0,
+              boxShadow: i === currentSlide ? '0 0 8px #c084fc88' : 'none',
+            }}
+          />
+        ))}
+      </div>
+
       {/* Floating Controls */}
-      <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', display: 'flex', gap: '1rem', background: 'var(--glass-bg)', padding: '0.5rem', borderRadius: '12px', backdropFilter: 'blur(10px)', border: '1px solid var(--glass-border)' }}>
+      <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', display: 'flex', gap: '0.75rem', background: 'var(--glass-bg)', padding: '0.5rem', borderRadius: '12px', backdropFilter: 'blur(10px)', border: '1px solid var(--glass-border)', zIndex: 10, animation: 'fadeInUp 0.6s 0.4s ease-out both' }}>
         <button 
           onClick={prevSlide} 
           disabled={currentSlide === 0}
-          className="btn" 
-          style={{ width: '50px', height: '50px', padding: 0, borderRadius: '8px', background: currentSlide === 0 ? 'transparent' : 'rgba(255,255,255,0.1)' }}
+          className="btn prev-btn" 
+          style={{ width: '50px', height: '50px', padding: 0, borderRadius: '8px', background: currentSlide === 0 ? 'transparent' : 'rgba(255,255,255,0.1)', transition: 'all 0.2s ease' }}
           title="Anterior (Seta Esquerda)"
         >
           <ChevronLeft size={24} color={currentSlide === 0 ? '#475569' : '#f8fafc'} />
@@ -410,23 +440,72 @@ const Presentation = () => {
         <button 
           onClick={nextSlide} 
           disabled={currentSlide === slides.length - 1}
-          className="btn" 
-          style={{ width: '50px', height: '50px', padding: 0, borderRadius: '8px', background: currentSlide === slides.length - 1 ? 'transparent' : 'rgba(139, 92, 246, 0.8)' }}
+          className="btn next-btn" 
+          style={{ width: '50px', height: '50px', padding: 0, borderRadius: '8px', background: currentSlide === slides.length - 1 ? 'transparent' : 'rgba(139, 92, 246, 0.8)', boxShadow: currentSlide === slides.length - 1 ? 'none' : '0 0 16px rgba(139,92,246,0.5)', transition: 'all 0.2s ease' }}
           title="Próximo (Seta Direita/Espaço)"
         >
           <ChevronRight size={24} color={currentSlide === slides.length - 1 ? '#475569' : '#f8fafc'} />
         </button>
       </div>
       
-      {/* Styles for animations */}
+      {/* Global animation styles */}
       <style>{`
         @keyframes slideInRight {
-          from { opacity: 0; transform: translateX(50px); }
-          to { opacity: 1; transform: translateX(0); }
+          from { opacity: 0; transform: translateX(60px) scale(0.98); }
+          to   { opacity: 1; transform: translateX(0)   scale(1); }
         }
         @keyframes slideInLeft {
-          from { opacity: 0; transform: translateX(-50px); }
-          to { opacity: 1; transform: translateX(0); }
+          from { opacity: 0; transform: translateX(-60px) scale(0.98); }
+          to   { opacity: 1; transform: translateX(0)    scale(1); }
+        }
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+          from { opacity: 0; transform: translateY(-16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes floatOrb {
+          0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+          33%       { transform: translateY(-40px) translateX(20px) scale(1.05); }
+          66%       { transform: translateY(20px) translateX(-30px) scale(0.97); }
+        }
+        .orb {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(80px);
+          opacity: 0.25;
+          animation: floatOrb ease-in-out infinite;
+        }
+        .orb1 {
+          width: 500px; height: 500px;
+          background: radial-gradient(circle, #7c3aed, transparent 70%);
+          top: -150px; left: -150px;
+          animation-duration: 14s;
+        }
+        .orb2 {
+          width: 400px; height: 400px;
+          background: radial-gradient(circle, #2563eb, transparent 70%);
+          bottom: -100px; right: -100px;
+          animation-duration: 18s;
+          animation-delay: -6s;
+        }
+        .orb3 {
+          width: 300px; height: 300px;
+          background: radial-gradient(circle, #0ea5e9, transparent 70%);
+          top: 50%; right: 30%;
+          animation-duration: 22s;
+          animation-delay: -11s;
+        }
+        .prev-btn:not(:disabled):hover {
+          background: rgba(255,255,255,0.2) !important;
+          transform: scale(1.1);
+        }
+        .next-btn:not(:disabled):hover {
+          background: rgba(139, 92, 246, 1) !important;
+          box-shadow: 0 0 24px rgba(139,92,246,0.7) !important;
+          transform: scale(1.1);
         }
       `}</style>
     </div>
