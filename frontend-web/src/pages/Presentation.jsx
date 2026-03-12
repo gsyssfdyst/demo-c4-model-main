@@ -51,9 +51,10 @@ const PlantUmlViewer = ({ pumlContent, altText }) => {
   const [imgUrl, setImgUrl] = useState(null);
   const [error, setError] = useState(false);
 
+
   useEffect(() => {
     let isMounted = true;
-    const fetchDiagram = async () => {
+    const fetchDiagram = async () => { // API
       try {
         const response = await fetch('https://kroki.io/plantuml/svg', {
           method: 'POST',
