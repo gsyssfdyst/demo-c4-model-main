@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Library, AlertCircle } from 'lucide-react';
+import { UserPlus, AlertCircle } from 'lucide-react';
 
-const Login = () => {
+const Register = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
-  const { login } = useAuth();
+  const { registerUser } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -17,7 +18,7 @@ const Login = () => {
     setError('');
     setIsLoading(true);
 
-    const result = await login(email, password);
+    const result = await registerUser(name, email, password);
     
     if (result.success) {
       if (result.role === 'ADMIN') {
@@ -35,9 +36,9 @@ const Login = () => {
     <div className="app-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
       <div className="glass-card" style={{ maxWidth: '400px', width: '100%' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <Library size={48} color="#c084fc" style={{ marginBottom: '1rem' }} />
-          <h2>Bem-vindo(a) de volta</h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Faça login no Gerenciador da Biblioteca</p>
+          <UserPlus size={48} color="#c084fc" style={{ marginBottom: '1rem' }} />
+          <h2>Criar uma Conta</h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Cadastre-se para acessar o acervo da Biblioteca</p>
         </div>
 
         {error && (
@@ -60,13 +61,24 @@ const Login = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
+            <label>Nome Completo</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Ex: João da Silva"
+              required
+            />
+          </div>
+          <div className="form-group">
             <label>Endereço de E-mail</label>
             <input 
               type="email" 
               className="form-control" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="ex. admin@biblioteca.com"
+              placeholder="Ex: joao@email.com"
               required
             />
           </div>
@@ -79,41 +91,28 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
+              minLength={6}
             />
           </div>
           
           <button 
             type="submit" 
             className="btn btn-primary" 
-            style={{ marginTop: '1rem' }}
+            style={{ marginTop: '1rem', width: '100%' }}
             disabled={isLoading}
           >
-            {isLoading ? 'Entrando...' : 'Entrar'}
+            {isLoading ? 'Cadastrando...' : 'Finalizar Cadastro'}
           </button>
         </form>
 
-        <div style={{ marginTop: '2rem', fontSize: '0.85rem', color: 'var(--text-muted)', textAlign: 'center' }}>
-          <p>
-            Não tem uma conta? <Link to="/register" style={{ color: '#c084fc', textDecoration: 'none', fontWeight: 'bold' }}>Cadastre-se</Link>
+        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+            Já possui uma conta? <Link to="/login" style={{ color: '#c084fc', textDecoration: 'none', fontWeight: 'bold' }}>Faça login aqui</Link>
           </p>
-          <p style={{ marginTop: '0.5rem' }}><strong>Contas de Demonstração:</strong></p>
-          <p>Admin: admin@biblioteca.com / admin123</p>
-          <p>Cliente: joao@email.com / senha123</p>
-        </div>
-
-        <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--glass-border)', textAlign: 'center' }}>
-           <button 
-            type="button" 
-            className="btn" 
-            onClick={() => navigate('/presentation')}
-            style={{ width: '100%', background: 'rgba(139, 92, 246, 0.1)', color: '#c084fc', border: '1px solid rgba(139, 92, 246, 0.3)' }}
-          >
-            📊 Iniciar Apresentação (C4 Model)
-          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;

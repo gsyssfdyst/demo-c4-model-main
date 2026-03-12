@@ -12,14 +12,13 @@ const ManageUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch(API_URL);
-      if (res.ok) {
-        const data = await res.json();
+      const response = await fetch('http://localhost:8080/api/users');
+      if (response.ok) {
+        const data = await response.json();
         setUsers(data);
       }
     } catch (error) {
-      console.error('Falha ao buscar usuários:', error);
-      showMessage('Erro ao carregar usuários. O backend está rodando?', 'error');
+      console.error('Erro ao buscar usuários:', error);
     } finally {
       setLoading(false);
     }

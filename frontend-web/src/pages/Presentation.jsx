@@ -83,8 +83,18 @@ const PlantUmlViewer = ({ pumlContent, altText }) => {
   }
 
   return (
-    <div style={{ backgroundColor: 'white', borderRadius: '8px', padding: '1rem', marginBottom: '1rem', textAlign: 'center' }}>
-      <img src={imgUrl} alt={altText} style={{ maxHeight: '350px', width: 'auto', maxWidth: '100%', objectFit: 'contain' }} />
+    <div style={{ 
+      background: 'rgba(255, 255, 255, 0.95)', 
+      borderRadius: '16px', 
+      padding: '1.5rem', 
+      marginBottom: '1rem', 
+      textAlign: 'center',
+      boxShadow: '0 20px 40px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.2)',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'linear-gradient(90deg, #c084fc, #3b82f6)' }}></div>
+      <img src={imgUrl} alt={altText} style={{ maxHeight: '420px', width: 'auto', maxWidth: '100%', objectFit: 'contain', filter: 'contrast(1.05)' }} />
     </div>
   );
 };
@@ -115,9 +125,9 @@ const slides = [
         </p>
         <h3 style={{ color: '#c084fc', marginBottom: '0.5rem' }}>Escopo</h3>
         <ul style={{ listStyle: 'none', padding: 0, fontSize: '0.95rem' }}>
-          <li style={{ marginBottom: '0.3rem' }}>👥 <strong>Leitores e Bibliotecários:</strong> Controle de perfis e permissões.</li>
-          <li style={{ marginBottom: '0.3rem' }}>📚 <strong>Acervo e Circulação:</strong> Consulta, registro de empréstimos e devoluções com validação de prazos.</li>
-          <li>⚙️ <strong>Extensões:</strong> Multas, pagamentos e envio de notificações.</li>
+          <li style={{ marginBottom: '0.3rem' }}>👥 <strong>Autenticação e Acesso:</strong> Perfil Administrativo (Gestão) e Cadastro em tempo real de novos Clientes.</li>
+          <li style={{ marginBottom: '0.3rem' }}>📚 <strong>Acervo e Circulação:</strong> Vitrine interativa, registro de aluguel e devolução com controle de status.</li>
+          <li>⚙️ <strong>Integrações Externas:</strong> Simulação de processamento de Multas e Notificações (via arquitetura Mock).</li>
         </ul>
       </div>
     ),
@@ -152,7 +162,7 @@ const slides = [
           <ul style={{ paddingLeft: '1.5rem', lineHeight: '1.6' }}>
             <li><strong>Ator:</strong> Usuário (Pode ser Cliente ou Funcionário / Admin).</li>
             <li><strong>Sistema Central:</strong> Biblioteca Online.</li>
-            <li><strong>Sistemas Externos:</strong> Pagamentos e Notificações (previstos para V2).</li>
+            <li><strong>Sistemas Externos:</strong> Pagamentos e Notificações (Serviços independentes simulados usando Padrão Mock no Backend).</li>
           </ul>
         </div>
         <div>
@@ -215,7 +225,32 @@ const slides = [
     )
   },
   {
-    title: "6. Requisitos Não Funcionais Críticos",
+    title: "6. Funcionalidades Desenvolvidas na Prática",
+    content: (
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginTop: '1rem' }}>
+        <div className="glass-card" style={{ padding: '1.5rem' }}>
+          <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#93c5fd', marginBottom: '0.5rem' }}>👥 Gestão de Usuários</h4>
+          <p style={{ fontSize: '0.95rem', color: 'var(--text-main)', lineHeight: '1.5' }}>
+            Diferenciação dinâmica de roteamento no React entre <strong>Administradores</strong> (Gerenciam todo o acervo e clientes) e <strong>Clientes</strong>. Implementamos também o fluxo ponta-a-ponta de <strong>Cadastro de Novas Contas</strong> salvando direto no PostgreSQL.
+          </p>
+        </div>
+        <div className="glass-card" style={{ padding: '1.5rem' }}>
+          <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#93c5fd', marginBottom: '0.5rem' }}>📖 Vitrine e Aluguel</h4>
+          <p style={{ fontSize: '0.95rem', color: 'var(--text-main)', lineHeight: '1.5' }}>
+            Painéis assíncronos onde o cliente visualiza o catálogo, realiza a locação em um clique e acompanha o status (Ativo/Devolvido) e prazos de todos os seus <strong>Empréstimos</strong> no seu perfil.
+          </p>
+        </div>
+        <div className="glass-card" style={{ padding: '1.5rem', gridColumn: 'span 2' }}>
+          <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#c084fc', marginBottom: '0.5rem' }}>⚙️ Padrão Mock para Integrações (Pagamento & Notificação)</h4>
+          <p style={{ fontSize: '0.95rem', color: 'var(--text-main)', lineHeight: '1.5' }}>
+            Para validar a arquitetura C4 sem depender de serviços TCP/HTTP reais pagos, criamos camadas de integração mockadas (<code>NotificationService</code> e <code>PaymentService</code>). Quando o usuário realiza uma devolução, o Spring Boot dispara requisições locais simulando o faturamento e envio de e-mails, gerando relatórios de log consumíveis pela API.
+          </p>
+        </div>
+      </div>
+    )
+  },
+  {
+    title: "7. Requisitos Não Funcionais Críticos",
     content: (
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
         <div className="glass-card" style={{ padding: '1rem' }}>
@@ -250,7 +285,7 @@ const slides = [
     )
   },
   {
-    title: "7. Análise de Trade-offs e Limitações",
+    title: "8. Análise de Trade-offs e Limitações",
     content: (
       <div style={{ padding: '0.5rem 1rem' }}>
         <h3 style={{ color: '#c084fc', marginBottom: '1rem' }}>Decisões Conflitantes Assumidas</h3>
@@ -288,63 +323,112 @@ const slides = [
 
 const Presentation = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [direction, setDirection] = useState('next');
   const navigate = useNavigate();
 
   const nextSlide = () => {
-    if (currentSlide < slides.length - 1) setCurrentSlide(currentSlide + 1);
+    if (currentSlide < slides.length - 1) {
+      setDirection('next');
+      setCurrentSlide(prev => prev + 1);
+    }
   };
 
   const prevSlide = () => {
-    if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
+    if (currentSlide > 0) {
+      setDirection('prev');
+      setCurrentSlide(prev => prev - 1);
+    }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'Escape') {
+        navigate('/login');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentSlide, navigate]);
+
+  const progress = ((currentSlide + 1) / slides.length) * 100;
+
   return (
-    <div className="app-container" style={{ display: 'flex', flexDirection: 'column', height: '100vh', justifyContent: 'center' }}>
-      
-      <div className="glass-card" style={{ maxWidth: '900px', width: '100%', margin: '0 auto', height: '650px', display: 'flex', flexDirection: 'column' }}>
-        
-        {/* Header Slider */}
-        <div style={{ borderBottom: '1px solid var(--glass-border)', paddingBottom: '1rem', marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-             <PresentationIcon color="#c084fc" /> 
-             <span style={{ fontWeight: 'bold' }}>Defesa C4 Model - Slide {currentSlide + 1} de {slides.length}</span>
-          </div>
-          <button onClick={() => navigate('/login')} className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--glass-border)' }}>
-            Sair da Apresentação
-          </button>
-        </div>
-
-        {/* Slide Content */}
-        <div style={{ flex: 1, overflowY: 'auto' }}>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>{slides[currentSlide].title}</h2>
-          {slides[currentSlide].subtitle && <h3 style={{ color: '#93c5fd', marginBottom: '2rem' }}>{slides[currentSlide].subtitle}</h3>}
-          <div style={{ fontSize: '1.1rem' }}>
-            {slides[currentSlide].content}
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem', borderTop: '1px solid var(--glass-border)', paddingTop: '1.5rem' }}>
-          <button 
-            onClick={prevSlide} 
-            disabled={currentSlide === 0}
-            className="btn btn-primary" 
-            style={{ width: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', opacity: currentSlide === 0 ? 0.3 : 1 }}
-          >
-            <ChevronLeft size={20} /> Anterior
-          </button>
-          
-          <button 
-            onClick={nextSlide} 
-            disabled={currentSlide === slides.length - 1}
-            className="btn btn-primary" 
-            style={{ width: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', opacity: currentSlide === slides.length - 1 ? 0.3 : 1 }}
-          >
-            Próximo <ChevronRight size={20} />
-          </button>
-        </div>
-
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'radial-gradient(circle at top right, #1e1b4b, #0f172a 60%)' }}>
+      {/* Top Progress Bar */}
+      <div style={{ height: '4px', width: '100%', background: 'rgba(255,255,255,0.05)' }}>
+        <div style={{ height: '100%', width: `${progress}%`, background: 'linear-gradient(90deg, #c084fc, #3b82f6)', transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)' }} />
       </div>
+
+      <div style={{ padding: '1.5rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'var(--glass-bg)', padding: '0.5rem 1rem', borderRadius: '4px', border: '1px solid var(--glass-border)' }}>
+           <PresentationIcon color="#c084fc" size={24} /> 
+           <span style={{ fontWeight: '600', letterSpacing: '0.5px' }}>Defesa C4 Model</span>
+           <span style={{ color: 'var(--text-muted)' }}>|</span>
+           <span style={{ color: '#93c5fd' }}>Slide {currentSlide + 1} de {slides.length}</span>
+        </div>
+        <button onClick={() => navigate('/login')} className="btn" style={{ width: 'auto', background: 'rgba(239, 68, 68, 0.1)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '0.5rem 1rem' }}>
+          Sair (Esc)
+        </button>
+      </div>
+
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 2rem 2rem 2rem', position: 'relative', overflow: 'hidden' }}>
+        <div 
+          key={currentSlide}
+          style={{ 
+            width: '100%', 
+            maxWidth: '1100px', 
+            animation: `${direction === 'next' ? 'slideInRight' : 'slideInLeft'} 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`
+          }}
+        >
+          <div className="glass-card" style={{ padding: '4rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
+            <h2 style={{ fontSize: '2.8rem', marginBottom: '1rem', background: 'linear-gradient(to right, #f8fafc, #93c5fd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              {slides[currentSlide].title}
+            </h2>
+            {slides[currentSlide].subtitle && <h3 style={{ fontSize: '1.5rem', color: '#c084fc', marginBottom: '3rem', fontWeight: '400' }}>{slides[currentSlide].subtitle}</h3>}
+            <div style={{ fontSize: '1.2rem', color: 'rgba(248, 250, 252, 0.9)' }}>
+              {slides[currentSlide].content}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Controls */}
+      <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', display: 'flex', gap: '1rem', background: 'var(--glass-bg)', padding: '0.5rem', borderRadius: '12px', backdropFilter: 'blur(10px)', border: '1px solid var(--glass-border)' }}>
+        <button 
+          onClick={prevSlide} 
+          disabled={currentSlide === 0}
+          className="btn" 
+          style={{ width: '50px', height: '50px', padding: 0, borderRadius: '8px', background: currentSlide === 0 ? 'transparent' : 'rgba(255,255,255,0.1)' }}
+          title="Anterior (Seta Esquerda)"
+        >
+          <ChevronLeft size={24} color={currentSlide === 0 ? '#475569' : '#f8fafc'} />
+        </button>
+        <button 
+          onClick={nextSlide} 
+          disabled={currentSlide === slides.length - 1}
+          className="btn" 
+          style={{ width: '50px', height: '50px', padding: 0, borderRadius: '8px', background: currentSlide === slides.length - 1 ? 'transparent' : 'rgba(139, 92, 246, 0.8)' }}
+          title="Próximo (Seta Direita/Espaço)"
+        >
+          <ChevronRight size={24} color={currentSlide === slides.length - 1 ? '#475569' : '#f8fafc'} />
+        </button>
+      </div>
+      
+      {/* Styles for animations */}
+      <style>{`
+        @keyframes slideInRight {
+          from { opacity: 0; transform: translateX(50px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInLeft {
+          from { opacity: 0; transform: translateX(-50px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+      `}</style>
     </div>
   );
 };

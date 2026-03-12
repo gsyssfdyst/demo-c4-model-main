@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Book, Calendar, CheckCircle, RefreshCcw } from 'lucide-react';
 
 const API_URL = 'http://localhost:8080/api/loans';
 
 const MyRentals = ({ userId }) => {
   const [loans, setLoans] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
 
-  const fetchLoans = async () => {
+  const showMessage = useCallback((text, type) => {
+    setMessage({ text, type });
+    setTimeout(() => setMessage({ text: '', type: '' }), 4000);
+  }, []);
+
+  const fetchLoans = useCallback(async () => {
+    setLoading(true);
     try {
       const res = await fetch(`${API_URL}/user/${userId}`);
       if (res.ok) {
@@ -18,6 +24,8 @@ const MyRentals = ({ userId }) => {
           return a.status === 'ACTIVE' ? -1 : 1;
         });
         setLoans(sorted);
+      } else {
+        throw new Error('Failed to fetch loans');
       }
     } catch (error) {
       console.error('Falha ao buscar empréstimos:', error);
@@ -25,16 +33,11 @@ const MyRentals = ({ userId }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId, showMessage]);
 
   useEffect(() => {
     fetchLoans();
   }, [userId]);
-
-  const showMessage = (text, type) => {
-    setMessage({ text, type });
-    setTimeout(() => setMessage({ text: '', type: '' }), 4000);
-  };
 
   const handleReturn = async (loanId) => {
     if (!window.confirm('Devolver este livro?')) return;

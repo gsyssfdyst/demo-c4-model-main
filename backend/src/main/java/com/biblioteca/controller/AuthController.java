@@ -42,4 +42,26 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password.");
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody Map<String, String> payload) {
+        String name = payload.get("name");
+        String email = payload.get("email");
+        String password = payload.get("password");
+
+        if (name == null || email == null || password == null) {
+            return ResponseEntity.badRequest().body("Nome, email e senha são obrigatórios.");
+        }
+
+        if (userService.getUserByEmail(email).isPresent()) {
+            return ResponseEntity.badRequest().body("E-mail já está em uso.");
+        }
+
+        User newUser = new User(name, email, password, com.biblioteca.model.Role.CLIENT);
+        userService.saveUser(newUser);
+
+        // Retorna o usuário criado (sem a senha por segurança)
+        newUser.setPassword(null);
+        return ResponseEntity.ok(newUser);
+    }
 }

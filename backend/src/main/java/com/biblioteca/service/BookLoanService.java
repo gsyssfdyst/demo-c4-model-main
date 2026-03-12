@@ -26,6 +26,12 @@ public class BookLoanService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private PaymentService paymentService;
+
     public List<BookLoan> getAllLoans() {
         return bookLoanRepository.findAll();
     }
@@ -54,11 +60,15 @@ public class BookLoanService {
 
         BookLoan loan = new BookLoan(book, user, new Date(), dueDate, LoanStatus.ACTIVE);
         
-        // Update book availability
         book.setAvailable(false);
         bookRepository.save(book);
 
-        return bookLoanRepository.save(loan);
+        BookLoan savedLoan = bookLoanRepository.save(loan);
+
+        // Disparar Notificação Simulada
+        notificationService.sendLoanConfirmation(user.getEmail(), book.getTitle(), dueDate);
+
+        return savedLoan;
     }
 
     @Transactional
@@ -77,6 +87,18 @@ public class BookLoanService {
         book.setAvailable(true);
         bookRepository.save(book);
 
-        return bookLoanRepository.save(loan);
+        BookLoan savedLoan = bookLoanRepository.save(loan);
+
+        // Calcula Multa Falsa por Atraso
+        double lateFee = paymentService.calculateLateFee(loan.getDueDate(), loan.getReturnDate());
+        if (lateFee > 0) {
+            notificationService.sendLateFeeWarning(loan.getUser().getEmail(), lateFee);
+            paymentService.processPayment(loan.getUser().getId(), lateFee);
+        }
+
+        // Envia email falso de devolucao bem-sucedida
+        notificationService.sendReturnConfirmation(loan.getUser().getEmail(), book.getTitle());
+
+        return savedLoan;
     }
 }
