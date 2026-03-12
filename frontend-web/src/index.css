@@ -11,6 +11,10 @@
   --accent-hover: #7c3aed;
   --success: #10b981;
   --danger: #ef4444;
+  
+  /* Animation tokens */
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -74,12 +78,13 @@ body {
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: var(--glass-shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s var(--ease-smooth), box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .glass-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.5);
+  border-color: rgba(192, 132, 252, 0.2);
 }
 
 .form-group {
@@ -129,17 +134,24 @@ body {
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.25s var(--ease-smooth);
   width: 100%;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.96);
 }
 
 .btn-primary {
   background: var(--accent);
   color: white;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
   background: var(--accent-hover);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+  transform: translateY(-1px);
 }
 
 .btn-danger {
@@ -237,7 +249,11 @@ body {
   color: var(--text-muted);
 }
 
-/* Animations */
+/* ============================================
+   ANIMATIONS SYSTEM
+   ============================================ */
+
+/* Keyframes */
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -248,6 +264,69 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes floatOrb {
+  0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+  33%       { transform: translateY(-40px) translateX(20px) scale(1.05); }
+  66%       { transform: translateY(20px) translateX(-30px) scale(0.97); }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.85) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Utility animation classes */
+.animate-fadeInDown  { animation: fadeInDown 0.5s var(--ease-smooth) both; }
+.animate-fadeInUp    { animation: fadeInUp   0.5s var(--ease-smooth) both; }
+.animate-fadeInLeft  { animation: fadeInLeft 0.5s var(--ease-smooth) both; }
+.animate-fadeInRight { animation: fadeInRight 0.5s var(--ease-smooth) both; }
+.animate-scaleIn     { animation: scaleIn    0.4s var(--ease-bounce)  both; }
+.animate-popIn       { animation: popIn      0.45s var(--ease-bounce) both; }
+
+/* Stagger delay helpers */
+.delay-100  { animation-delay: 0.1s; }
+.delay-150  { animation-delay: 0.15s; }
+.delay-200  { animation-delay: 0.2s; }
+.delay-300  { animation-delay: 0.3s; }
+.delay-400  { animation-delay: 0.4s; }
+.delay-500  { animation-delay: 0.5s; }
+.delay-600  { animation-delay: 0.6s; }
+.delay-700  { animation-delay: 0.7s; }
+
+/* Loading skeleton shimmer */
+.shimmer {
+  background: linear-gradient(90deg, var(--glass-bg) 25%, rgba(255,255,255,0.1) 50%, var(--glass-bg) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
 .loading {
   text-align: center;
   padding: 3rem;
@@ -256,11 +335,24 @@ body {
   animation: pulse 1.5s infinite;
 }
 
-@keyframes pulse {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
+/* Animated orb background (reusable via class) */
+.orb-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
 }
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.2;
+  animation: floatOrb ease-in-out infinite;
+}
+.orb-purple { background: radial-gradient(circle, #7c3aed, transparent 70%); }
+.orb-blue   { background: radial-gradient(circle, #2563eb, transparent 70%); }
+.orb-sky    { background: radial-gradient(circle, #0ea5e9, transparent 70%); }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {

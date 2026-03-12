@@ -92,8 +92,13 @@ const AdminDashboard = () => {
   if (!user || user.role !== 'ADMIN') return null;
 
   return (
-    <div className="app-container">
-      <header className="header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', textAlign: 'left' }}>
+    <div className="app-container" style={{ position: 'relative' }}>
+      {/* Ambient orbs */}
+      <div className="orb-bg">
+        <div className="orb orb-purple" style={{ width: '500px', height: '500px', top: '-200px', right: '-100px', animationDuration: '20s' }} />
+        <div className="orb orb-blue" style={{ width: '300px', height: '300px', bottom: '0', left: '-150px', animationDuration: '25s', animationDelay: '-12s' }} />
+      </div>
+      <header className="header animate-fadeInDown" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', textAlign: 'left' }}>
         <div>
           <h1 style={{ fontSize: '2.5rem', marginBottom: '0.2rem' }}>
             <Library size={36} style={{verticalAlign: 'middle', marginRight: '0.8rem', color: '#c084fc'}}/>
@@ -106,7 +111,7 @@ const AdminDashboard = () => {
         </button>
       </header>
 
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+      <div className="animate-fadeInUp delay-200" style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
         <button 
           className="btn" 
           onClick={() => setActiveTab('books')}

@@ -33,9 +33,13 @@ const Register = () => {
   };
 
   return (
-    <div className="app-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
-      <div className="glass-card" style={{ maxWidth: '400px', width: '100%' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+    <div className="app-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh', position: 'relative', overflow: 'hidden' }}>
+      <div className="orb-bg">
+        <div className="orb orb-purple" style={{ width: '400px', height: '400px', top: '-100px', right: '-100px', animationDuration: '18s' }} />
+        <div className="orb orb-sky" style={{ width: '280px', height: '280px', bottom: '-80px', left: '-80px', animationDuration: '22s', animationDelay: '-10s' }} />
+      </div>
+      <div className="glass-card animate-scaleIn" style={{ maxWidth: '400px', width: '100%', position: 'relative', zIndex: 1 }}>
+        <div className="animate-fadeInDown" style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <UserPlus size={48} color="#c084fc" style={{ marginBottom: '1rem' }} />
           <h2>Criar uma Conta</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Cadastre-se para acessar o acervo da Biblioteca</p>
@@ -59,7 +63,7 @@ const Register = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <form className="animate-fadeInUp delay-200" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Nome Completo</label>
             <input 

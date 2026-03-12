@@ -78,8 +78,13 @@ const ClientShowcase = () => {
   const availableBooks = books.filter(book => book.available);
 
   return (
-    <div className="app-container">
-      <header className="header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', textAlign: 'left' }}>
+    <div className="app-container" style={{ position: 'relative' }}>
+      {/* Ambient orbs */}
+      <div className="orb-bg">
+        <div className="orb orb-blue" style={{ width: '500px', height: '500px', top: '-200px', left: '-100px', animationDuration: '22s' }} />
+        <div className="orb orb-sky" style={{ width: '300px', height: '300px', bottom: '0', right: '-150px', animationDuration: '18s', animationDelay: '-9s' }} />
+      </div>
+      <header className="header animate-fadeInDown" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', textAlign: 'left' }}>
         <div>
           <h1 style={{ fontSize: '2.5rem', marginBottom: '0.2rem' }}>
             <Library size={36} style={{verticalAlign: 'middle', marginRight: '0.8rem', color: '#c084fc'}}/>
@@ -92,7 +97,7 @@ const ClientShowcase = () => {
         </button>
       </header>
 
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+      <div className="animate-fadeInUp delay-200" style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
         <button 
           className="btn" 
           onClick={() => setActiveTab('browse')}
@@ -118,7 +123,7 @@ const ClientShowcase = () => {
       </div>
 
       {message.text && (
-        <div style={{
+        <div className="animate-popIn" style={{
           padding: '1rem',
           borderRadius: '8px',
           marginBottom: '1rem',

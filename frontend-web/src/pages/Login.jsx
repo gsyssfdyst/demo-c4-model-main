@@ -32,16 +32,21 @@ const Login = () => {
   };
 
   return (
-    <div className="app-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
-      <div className="glass-card" style={{ maxWidth: '400px', width: '100%' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <Library size={48} color="#c084fc" style={{ marginBottom: '1rem' }} />
-          <h2>Bem-vindo(a) de volta</h2>
+    <div className="app-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh', position: 'relative', overflow: 'hidden' }}>
+      {/* Ambient floating orbs */}
+      <div className="orb-bg">
+        <div className="orb orb-purple" style={{ width: '400px', height: '400px', top: '-100px', left: '-100px', animationDuration: '16s' }} />
+        <div className="orb orb-blue" style={{ width: '300px', height: '300px', bottom: '-80px', right: '-80px', animationDuration: '20s', animationDelay: '-8s' }} />
+      </div>
+      <div className="glass-card animate-scaleIn" style={{ maxWidth: '400px', width: '100%', position: 'relative', zIndex: 1 }}>
+        <div className="animate-fadeInDown" style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <Library size={48} color="#c084fc" className="animate-scaleIn delay-100" style={{ marginBottom: '1rem' }} />
+          <h2>{`Bem-vindo(a) de volta`}</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Faça login no Gerenciador da Biblioteca</p>
         </div>
 
         {error && (
-          <div style={{ 
+          <div className="animate-fadeInDown" style={{ 
             backgroundColor: 'rgba(239, 68, 68, 0.2)', 
             border: '1px solid var(--danger)',
             color: '#fca5a5',
@@ -58,7 +63,7 @@ const Login = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <form className="animate-fadeInUp delay-200" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Endereço de E-mail</label>
             <input 
