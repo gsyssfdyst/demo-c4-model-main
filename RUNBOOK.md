@@ -78,7 +78,7 @@ Com a API funcionando, agora é hora de rodar a interface de usuário web.
    ```
 
 O frontend deverá inicializar com sucesso e a interface da aplicação estará rodando localmente em:
-👉 **http://localhost:5173**
+👉 **http://localhost:5174**
 
 Abra esse endereço no seu navegador favorito para começar a usar a aplicação!
 
@@ -86,6 +86,6 @@ Abra esse endereço no seu navegador favorito para começar a usar a aplicação
 
 ## Possíveis Erros e Soluções (Troubleshooting)
 
-- **Porta em Uso**: Caso as portas `8080` (Backend), `5173` (Frontend) ou `5433` (DB) já estejam sendo usadas, o seu serviço falhará ao iniciar. Você precisará parar o serviço na sua máquina que está utilizando essas portas ou reconfigurar as portas na aplicação (`application.properties` para o backend, `vite.config.js` para o front, ou `docker-compose.yml` para o banco de dados).
+- **Porta em Uso**: Caso as portas `8080` (Backend), `5174` (Frontend) ou `5433` (DB) já estejam sendo usadas, o seu serviço falhará ao iniciar. Você precisará parar o serviço na sua máquina que está utilizando essas portas ou reconfigurar as portas na aplicação (`application.properties` para o backend, `vite.config.js` para o front, ou `docker-compose.yml` para o banco de dados).
 - **Dados do Banco**: O Spring Data JPA do backend deve criar o schema necessário das tabelas automaticamente ao subir conectado ao Docker do banco de dados na URL estipulada.
 
